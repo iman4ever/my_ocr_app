@@ -175,7 +175,6 @@ class ReceiptParser {
            }
          }
          
-         /
          String cleanName = currentName.replaceAll(RegExp(r'[^a-zA-Z0-9\s%.]+$'), ''); 
          
          // Count letters in the cleaned name
