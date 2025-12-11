@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../providers/receipt_provider.dart';
 import '../database/receipt_model.dart';
 import '../utils/receipt_parser.dart';
+import '../utils/image_preprocessor.dart';
 import 'package:intl/intl.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -37,6 +38,7 @@ class _ScanScreenState extends State<ScanScreen> {
         setState(() {
           _image = File(pickedFile.path);
         });
+        // Use raw image — preprocessing makes OCR worse
         await _processImage(InputImage.fromFilePath(pickedFile.path));
       }
     } catch (e) {
