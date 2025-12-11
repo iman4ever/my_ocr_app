@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         // Add more providers here if needed
       ],
       child: MaterialApp(
-        title: 'Receipt Manager',
+        title: 'My Receipts',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,

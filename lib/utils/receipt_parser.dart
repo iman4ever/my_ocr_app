@@ -175,7 +175,7 @@ class ReceiptParser {
            }
          }
          
-         // Don't strip too aggressively, or we lose "AUBERGINE" if it has numbers
+         /
          String cleanName = currentName.replaceAll(RegExp(r'[^a-zA-Z0-9\s%.]+$'), ''); 
          
          // Count letters in the cleaned name

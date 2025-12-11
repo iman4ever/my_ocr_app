@@ -36,9 +36,23 @@ class HistoryScreen extends StatelessWidget {
                   child: const Icon(Icons.delete, color: Colors.white),
                 ),
                 onDismissed: (direction) {
+                  // Store the deleted receipt for undo
+                  final deletedReceipt = receipt;
+                  
                   provider.deleteReceipt(receipt.id!);
+                  
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('${receipt.title} supprimé')),
+                    SnackBar(
+                      content: Text('${receipt.title} supprimé'),
+                      action: SnackBarAction(
+                        label: 'Annuler',
+                        onPressed: () {
+                          // Restore the receipt
+                          provider.addReceipt(deletedReceipt);
+                        },
+                      ),
+                      duration: const Duration(seconds: 4),
+                    ),
                   );
                 },
                 child: Card(
