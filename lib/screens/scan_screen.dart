@@ -118,7 +118,7 @@ class _ScanScreenState extends State<ScanScreen> {
                           Expanded(
                             child: Text(
                               "Appuyez sur un article pour le modifier ou le supprimer",
-                              style: TextStyle(fontSize: 12, color: Colors.grey[700], fontStyle: FontStyle.italic),
+                              style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodySmall?.color, fontStyle: FontStyle.italic),
                             ),
                           ),
                         ],
@@ -128,9 +128,9 @@ class _ScanScreenState extends State<ScanScreen> {
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.grey[100],
+                          color: Theme.of(context).colorScheme.surfaceVariant,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey.shade300)
+                          border: Border.all(color: Theme.of(context).dividerColor)
                         ),
                         child: currentItems.isEmpty 
                            ? const Center(child: Text("Aucun article détecté. Ajouter manuellement?"))
@@ -286,7 +286,7 @@ class _ScanScreenState extends State<ScanScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.green, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                        style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                         onPressed: () {
                            final double finalAmount = double.tryParse(amountController.text) ?? 0.0;
                            if (finalAmount <= 0) {
@@ -324,7 +324,7 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -332,10 +332,10 @@ class _ScanScreenState extends State<ScanScreen> {
              if (_isBusy) const CircularProgressIndicator() else ...[
                Container(
                  padding: const EdgeInsets.all(20),
-                 decoration: const BoxDecoration(
-                   color: Colors.white,
+                 decoration: BoxDecoration(
+                   color: Theme.of(context).colorScheme.surface,
                    shape: BoxShape.circle,
-                   boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black12)]
+                   boxShadow: [BoxShadow(blurRadius: 10, color: Theme.of(context).shadowColor.withOpacity(0.06))]
                  ),
                  child: const Icon(Icons.qr_code_scanner, size: 80, color: Colors.green),
                ),

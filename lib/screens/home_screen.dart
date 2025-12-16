@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/receipt_provider.dart';
 import '../database/receipt_model.dart';
+import 'settings_screen.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -27,11 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Analyse des Dépenses'),
-        backgroundColor: Colors.white,
         elevation: 0,
-        titleTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
         actions: [
-          IconButton(icon: const Icon(Icons.notifications_none, color: Colors.black), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.notifications_none), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())),
+          ),
         ],
       ),
       body: Consumer<ReceiptProvider>(
@@ -63,16 +66,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
-                      BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))
+                      BoxShadow(color: Theme.of(context).shadowColor.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 5))
                     ],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Dépenses Totales", style: TextStyle(color: Colors.grey, fontSize: 14)),
+                      Text("Dépenses Totales", style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 14)),
                       const SizedBox(height: 8),
                       Text("${totalSpending.toStringAsFixed(2)} DH", style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
                     ],
@@ -95,9 +98,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))],
+          boxShadow: [BoxShadow(color: Theme.of(context).shadowColor.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 5))],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(title, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                Text(title, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12)),
                 Icon(icon, color: color, size: 20),
               ],
             ),
@@ -122,19 +125,19 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.1),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(Icons.shopping_bag, color: Colors.blue),
+            child: Icon(Icons.shopping_bag, color: Theme.of(context).colorScheme.primary),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -142,11 +145,11 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(receipt.title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text(receipt.formattedDate, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                Text(receipt.formattedDate, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12)),
               ],
             ),
           ),
-          Text("-${receipt.amount.toStringAsFixed(2)} DH", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+          Text("-${receipt.amount.toStringAsFixed(2)} DH", style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.error)),
         ],
       ),
     );

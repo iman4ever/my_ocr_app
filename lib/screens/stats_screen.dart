@@ -11,9 +11,7 @@ class StatsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dépenses par Catégorie'),
-        backgroundColor: Colors.white,
         elevation: 0,
-        titleTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
       ),
       body: Consumer<ReceiptProvider>(
         builder: (context, provider, child) {
@@ -32,7 +30,7 @@ class StatsScreen extends StatelessWidget {
                   PieChartData(
                     sectionsSpace: 2,
                     centerSpaceRadius: 40,
-                    sections: _buildPieSections(data),
+                    sections: _buildPieSections(data, context),
                   ),
                 ),
               ),
@@ -45,7 +43,7 @@ class StatsScreen extends StatelessWidget {
     );
   }
   
-  List<PieChartSectionData> _buildPieSections(Map<String, double> data) {
+  List<PieChartSectionData> _buildPieSections(Map<String, double> data, BuildContext context) {
     final List<Color> colors = [Colors.blue, Colors.orange, Colors.purple, Colors.green, Colors.red, Colors.teal];
     int i = 0;
     
@@ -59,7 +57,7 @@ class StatsScreen extends StatelessWidget {
         value: value,
         title: '${value.toInt()}DH',
         radius: 60,
-        titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+        titleStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onPrimary),
       );
     }).toList();
   }

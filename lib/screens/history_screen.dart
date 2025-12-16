@@ -11,9 +11,7 @@ class HistoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Historique'),
-        backgroundColor: Colors.white,
         elevation: 0,
-        titleTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
       ),
       body: Consumer<ReceiptProvider>(
         builder: (context, provider, child) {
@@ -60,12 +58,12 @@ class HistoryScreen extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: Colors.grey.shade200),
+                    side: BorderSide(color: Theme.of(context).dividerColor),
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: Colors.green.withOpacity(0.1),
-                      child: const Icon(Icons.receipt, color: Colors.green),
+                      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                      child: Icon(Icons.receipt, color: Theme.of(context).colorScheme.primary),
                     ),
                     title: Text(receipt.title, style: const TextStyle(fontWeight: FontWeight.bold)),
                     subtitle: Text(receipt.category),
@@ -74,7 +72,7 @@ class HistoryScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text("${receipt.amount.toStringAsFixed(2)} DH", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                        Text(receipt.formattedDate, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                        Text(receipt.formattedDate, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12)),
                       ],
                     ),
                   ),
