@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
+import '../providers/language_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
 	const SettingsScreen({Key? key}) : super(key: key);
@@ -11,9 +12,10 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-	String _language = 'English';
-
 	void _showLanguageSelector() async {
+		final languageProvider = context.read<LanguageProvider>();
+		final currentLanguage = languageProvider.language;
+
 		final selected = await showModalBottomSheet<String>(
 			context: context,
 			builder: (context) {
@@ -23,20 +25,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
 						children: [
 							ListTile(title: Text('Select Language', style: Theme.of(context).textTheme.titleMedium)),
 							RadioListTile<String>(
-								value: 'English',
-								groupValue: _language,
+								value: 'en',
+								groupValue: currentLanguage,
 								title: const Text('English'),
 								onChanged: (v) => Navigator.of(context).pop(v),
 							),
 							RadioListTile<String>(
-								value: 'French',
-								groupValue: _language,
+								value: 'fr',
+								groupValue: currentLanguage,
 								title: const Text('French'),
 								onChanged: (v) => Navigator.of(context).pop(v),
 							),
 							RadioListTile<String>(
-								value: 'Arabic',
-								groupValue: _language,
+								value: 'ar',
+								groupValue: currentLanguage,
 								title: const Text('Arabic'),
 								onChanged: (v) => Navigator.of(context).pop(v),
 							),
@@ -46,8 +48,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 			},
 		);
 
-		if (selected != null && selected != _language) {
-			setState(() => _language = selected);
+		if (selected != null && selected != currentLanguage) {
+			context.read<LanguageProvider>().setLanguage(selected);
 		}
 	}
 
@@ -80,7 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 								ListTile(
 									leading: const Icon(Icons.language),
 									title: const Text('Language'),
-									subtitle: Text(_language),
+									subtitle: Text(context.watch<LanguageProvider>().displayName),
 									trailing: const Icon(Icons.chevron_right),
 									onTap: _showLanguageSelector,
 								),
