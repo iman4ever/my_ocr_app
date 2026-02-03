@@ -224,19 +224,66 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
 					const SizedBox(height: 24),
 
-					// Additional static settings or info can go here
+					// About App section
+					Padding(
+						padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+						child: Text('About', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+					),
 					Card(
 						child: Column(
 							children: [
 								ListTile(
 									leading: const Icon(Icons.info_outline),
-									title: const Text('About'),
-									subtitle: const Text('Learn more about this app'),
-									onTap: () => showAboutDialog(
+									title: const Text('About App'),
+									subtitle: const Text('View app information and attribution'),
+									onTap: () => showDialog(
 										context: context,
-										applicationName: 'My OCR App',
-										applicationVersion: '1.0.0',
-										applicationLegalese: '© 2025 My OCR App',
+										builder: (_) => AlertDialog(
+											title: const Text('About My OCR App'),
+											content: SingleChildScrollView(
+												child: Column(
+													mainAxisSize: MainAxisSize.min,
+													crossAxisAlignment: CrossAxisAlignment.start,
+													children: [
+														const Text(
+															'My OCR App',
+															style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+														),
+														const SizedBox(height: 8),
+														Text(
+															'Version 1.0.0',
+															style: Theme.of(context).textTheme.bodyMedium,
+														),
+														const SizedBox(height: 16),
+														Text(
+															'A Flutter application for optical character recognition (OCR) that helps users digitize and manage their receipts efficiently.',
+															style: Theme.of(context).textTheme.bodyMedium,
+														),
+														const SizedBox(height: 16),
+														Text(
+															'Project Attribution',
+															style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+														),
+														const SizedBox(height: 8),
+														Text(
+															'Built with Flutter and Google ML Kit for text recognition.',
+															style: Theme.of(context).textTheme.bodySmall,
+														),
+														const SizedBox(height: 8),
+														Text(
+															'© 2025 My OCR App. All rights reserved.',
+															style: Theme.of(context).textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic),
+														),
+													],
+												),
+											),
+											actions: [
+												TextButton(
+													onPressed: () => Navigator.of(context).pop(),
+													child: const Text('Close'),
+												),
+											],
+										),
 									),
 								),
 								const Divider(height: 0),
