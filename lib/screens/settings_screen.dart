@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
 import '../providers/language_provider.dart';
+import '../providers/receipt_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
 	const SettingsScreen({Key? key}) : super(key: key);
@@ -151,13 +152,71 @@ class _SettingsScreenState extends State<SettingsScreen> {
 									leading: const Icon(Icons.settings_applications),
 									title: const Text('User Control'),
 									trailing: const Icon(Icons.chevron_right),
-									onTap: () => showDialog(
-										context: context,
-										builder: (_) => const AlertDialog(
-											title: Text('User Control'),
-											content: Text('Options available to the user to control their data.'),
-										),
-									),
+									onTap: () {
+										showModalBottomSheet<void>(
+											context: context,
+											builder: (ctx) {
+												return SafeArea(
+													child: Column(
+														mainAxisSize: MainAxisSize.min,
+														children: [
+															ListTile(
+																leading: const Icon(Icons.delete_forever),
+																title: const Text('Clear Local Data'),
+																subtitle: const Text('Remove all locally stored receipts'),
+																onTap: () async {
+																final confirm = await showDialog<bool>(
+																	context: context,
+																	builder: (_) => AlertDialog(
+																		title: const Text('Confirm Clear Data'),
+																		content: const Text('This will permanently delete all local receipts. Continue?'),
+																		actions: [
+																			TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+																			TextButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Delete')),
+																		],
+																),
+																);
+																if (confirm == true) {
+																	try {
+																		await context.read<ReceiptProvider>().clearAllReceipts();
+																		ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Local data cleared')));
+																	} catch (e) {
+																		ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to clear local data')));
+																	}
+																}
+																Navigator.of(ctx).pop();
+															},
+															),
+															ListTile(
+																leading: const Icon(Icons.restart_alt),
+																title: const Text('Reset Preferences'),
+																subtitle: const Text('Restore default app settings (language, theme)'),
+																onTap: () async {
+																final confirm = await showDialog<bool>(
+																	context: context,
+																	builder: (_) => AlertDialog(
+																		title: const Text('Confirm Reset Preferences'),
+																		content: const Text('This will reset language and theme preferences to defaults.'),
+																		actions: [
+																			TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+																			TextButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Reset')),
+																		],
+																),
+																);
+																if (confirm == true) {
+																	await context.read<LanguageProvider>().setLanguage('en');
+																	await context.read<ThemeProvider>().setDarkMode(false);
+																	ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Preferences reset')));
+																}
+																Navigator.of(ctx).pop();
+															},
+															),
+														],
+														),
+													);
+											},
+										);
+									},
 								),
 							],
 						),

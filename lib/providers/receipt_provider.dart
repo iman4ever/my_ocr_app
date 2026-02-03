@@ -41,6 +41,21 @@ class ReceiptProvider with ChangeNotifier {
       await loadReceipts(); 
     }
   }
+
+  Future<void> clearAllReceipts() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      await DatabaseHelper.instance.deleteAllReceipts();
+      _receipts = [];
+    } catch (e) {
+      print('Error clearing receipts: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
   
   double get totalSpending {
     return _receipts.fold(0, (sum, item) => sum + item.amount);

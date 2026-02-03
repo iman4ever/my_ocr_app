@@ -97,6 +97,11 @@ CREATE TABLE receipts (
       whereArgs: [id],
     );
   }
+
+  Future<int> deleteAllReceipts() async {
+    final db = await instance.database;
+    return await db.delete('receipts');
+  }
   
   Future<double> calculateTotalSpending() async {
      final db = await instance.database;
